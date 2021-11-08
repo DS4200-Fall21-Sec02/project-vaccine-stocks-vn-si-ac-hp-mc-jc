@@ -2,7 +2,7 @@
 
 This repository is your starting point for your project. Please look through all these materials so you know how to organize your project.
 
-Link to your GitHub pages website: `[insert your *clickable* hyperlink here]`
+Link to your GitHub pages website: https://ds4200-fall21-sec02.github.io/project-vaccine-stocks-vn-si-ac-hp-mc-jc/
 
 # Aim of the assignment
 
