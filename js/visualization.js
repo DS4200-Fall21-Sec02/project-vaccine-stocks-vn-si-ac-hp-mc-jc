@@ -2,7 +2,7 @@
 // variables and prevent 
 ((() => {
 
-  d3.csv('vaccine-stocks.csv').then(function(data) {
+  d3.csv('data/vaccine-stocks.csv').then(function(data) {
     console.log(data)
   });
 
