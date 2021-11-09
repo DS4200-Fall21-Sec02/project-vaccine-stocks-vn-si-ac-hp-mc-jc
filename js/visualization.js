@@ -6,8 +6,8 @@ var margin = {top: 10, right: 30, bottom: 50, left: 60},
     height = 450 - margin.top - margin.bottom;
 
 // append svg object to the body of the page to house Scatterplot 1
-let svg1, svg2 = d3
-.select("#dataviz_brushScatter")
+let svg1 = d3
+.select("#vis-svg-1")
 .append("svg")
 .attr("width", width + margin.left + margin.right)
 .attr("height", height + margin.top + margin.bottom)
