@@ -1,22 +1,83 @@
 // Immediately Invoked Function Expression to limit access to our 
-// variables and prevent
+// variables and prevent 
+// ((() => {
 
+//   d3.csv('data/vaccine-stocks.csv').then(function(data) {
+//     console.log(data)
+//   });
+
+//   console.log('Hello, world!');
+
+// })());
+
+// __________________________________________________________________________________________________
+
+
+
+// set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 50, left: 60},
-    width = 1000 - margin.left - margin.right,
-    height = 1000 - margin.top - margin.bottom;
+    width = 600 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
 
-// append svg object to the body of the page to house Scatterplot 1
-/*let svg1 = d3
-.select("#vis-svg-1")
-.append("svg")
-.attr("width", width + margin.left + margin.right)
-.attr("height", height + margin.top + margin.bottom)
-.append("g")
-.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-*/
+
+// append the svg object to the body of the page
+const svg1 = d3.select("#vis-svg-1")
+  .append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", `translate(${margin.left},${margin.top})`);
+
+//Read the data
+d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-stocks-vn-si-ac-hp-mc-jc/main/data/vaccine-stocks.csv").then(function (data) {
+
+
+  let dataAdjClose = data.filter(function(d){ return  (d.Measure == "Adj_Close")})
+  // group the data: I want to draw one line per group
+  const sumstat = d3.group(dataAdjClose, d => d.Name); // nest function allows to group the calculation per level of a factor
+
+  // Add X axis --> it is a date format
+  const x = d3.scaleLinear()
+    //.domain(d3.extent(data, function (d) { return d.Day; }))
+    .domain([0,500]) // this is hardcoded (for now)
+    .range([0, width]);
+  svg1.append("g")
+    .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(x).ticks(5));
+
+  // Add Y axis
+  const y = d3.scaleLinear()
+    //.domain([0, d3.max(data, function (d) { return +d.Value; })])
+    .domain([0, d3.max(dataAdjClose, function (d) { return +d.Value; })])
+    .range([height, 0]);
+  svg1.append("g")
+    .call(d3.axisLeft(y));
+
+  // color palette
+  const colors = d3.scaleOrdinal()
+    .range(['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33'])
+  // Draw the line
+  svg1.selectAll(".line")
+    .data(sumstat)
+    .join("path")
+    .attr("fill", "none")
+    .attr("stroke", function (d) { return colors(d[0]) })
+    .attr("stroke-width", 1.5)
+    .attr("d", function (d) {
+      return d3.line()
+        .x(function (d) { return x(d.Day); })
+        .y(function (d) { return y(+d.Value); })
+        (d[1])
+    })
+
+})
+
+
+
+
 
 let svg2 = d3
-.select("#vis-svg-2")
+.select("#vis-svg-1")
 .append("svg")
 .attr("width", width + margin.left + margin.right)
 .attr("height", height + margin.top + margin.bottom)
@@ -28,9 +89,13 @@ var color = d3
 .domain(["Johnson & Johnson", "Novavax", "BioNTech", "Astrazeneca", "Inovio Pharmaceuticals", "Moderna"])
 .range(["#FF7F50", "#21908dff", "#fde725ff", "#b46fd7", "#FF0000", "#FF00FF"]);
 
-((() => {
 
-  d3.csv('data/vaccine-stocks.csv').then(function(data) {
+
+
+
+
+//Read the data
+d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-stocks-vn-si-ac-hp-mc-jc/main/data/vaccine-stocks.csv").then(function(data) {
     // line
     // bar
     let dataVol = data.filter(function(d){ return  (d.Measure == "Volume")})
@@ -95,7 +160,6 @@ var color = d3
         .attr("y", margin.bottom - 4)
         .attr("fill", "currentColor")
         .attr("text-anchor", "end")
-        .text("Species")
     );
 
     let y = d3
@@ -126,6 +190,6 @@ var color = d3
     .style("fill", function (d) {
       return color(d.Name);
     })
-  });
+  })
 
-})());
+
