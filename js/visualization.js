@@ -29,7 +29,7 @@ const svg1 = d3.select("#vis-svg-1")
   .attr("transform", `translate(${margin.left},${margin.top})`);
 
 //Read the data
-d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-stocks-vn-si-ac-hp-mc-jc/main/data/vaccine-stocks.csv").then(function (data) {
+d3.csv("data/vaccine-stocks.csv").then(function (data) {
 
 
   let dataAdjClose = data.filter(function(d){ return  (d.Measure == "Adj_Close")})
@@ -95,7 +95,7 @@ var color = d3
 
 
 //Read the data
-d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-stocks-vn-si-ac-hp-mc-jc/main/data/vaccine-stocks.csv").then(function(data) {
+d3.csv("data/vaccine-stocks.csv").then(function(data) {
     // line
     // bar
     let dataVol = data.filter(function(d){ return  (d.Measure == "Volume")})
