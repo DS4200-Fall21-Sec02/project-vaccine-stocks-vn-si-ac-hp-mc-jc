@@ -2,17 +2,27 @@
 // variables and prevent
 
 var margin = {top: 10, right: 30, bottom: 50, left: 60},
-    width = 460 - margin.left - margin.right,
-    height = 450 - margin.top - margin.bottom;
+    width = 1000 - margin.left - margin.right,
+    height = 1000 - margin.top - margin.bottom;
 
 // append svg object to the body of the page to house Scatterplot 1
-let svg1 = d3
+/*let svg1 = d3
 .select("#vis-svg-1")
 .append("svg")
 .attr("width", width + margin.left + margin.right)
 .attr("height", height + margin.top + margin.bottom)
 .append("g")
 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+*/
+
+let svg2 = d3
+.select("#vis-svg-2")
+.append("svg")
+.attr("width", width + margin.left + margin.right)
+.attr("height", height + margin.top + margin.bottom)
+.append("g")
+.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
 var color = d3
 .scaleOrdinal()
 .domain(["Johnson & Johnson", "Novavax", "BioNTech", "Astrazeneca", "Inovio Pharmaceuticals", "Moderna"])
