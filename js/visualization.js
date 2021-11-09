@@ -13,6 +13,10 @@ let svg1 = d3
 .attr("height", height + margin.top + margin.bottom)
 .append("g")
 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+var color = d3
+.scaleOrdinal()
+.domain(["Johnson & Johnson", "Novavax", "BioNTech", "Astrazeneca", "Inovio Pharmaceuticals", "Moderna"])
+.range(["#FF7F50", "#21908dff", "#fde725ff", "#b46fd7", "#FF0000", "#FF00FF"]);
 
 ((() => {
 
@@ -20,9 +24,98 @@ let svg1 = d3
     // line
     // bar
     let dataVol = data.filter(function(d){ return  (d.Measure == "Volume")})
-    let dataNest = d3.group(dataVol, d => d.Day)
+    let dataNest = d3.group(dataVol, d => d.Name)
 
-    console.log(dataNest);
+    console.log(dataVol)
+    console.log(dataNest)
+
+    let dataMap = new Map()
+
+    let sum1 = 0.0;
+    for (let i = 0; i < 496; i++) {
+      sum1 += dataNest.get("BioNTech")[i].Value / 496
+    }
+    dataMap.set("BioNTech", sum1)
+
+    let sum2 = 0.0;
+    for (let i = 0; i < 496; i++) {
+      sum2 += dataNest.get("Novavax")[i].Value / 496
+    }
+    dataMap.set("Novavax", sum2)
+
+    let sum3 = 0.0;
+    for (let i = 0; i < 496; i++) {
+      sum3 += dataNest.get("Johnson & Johnson")[i].Value / 496
+    }
+    dataMap.set("Johnson & Johnson", sum3)
+
+    let sum4 =0.0;
+    for (let i = 0; i < 496; i++) {
+      sum4 += dataNest.get("Astrazeneca")[i].Value / 496
+    }
+    dataMap.set("Astrazeneca", sum4)
+
+    let sum5 = 0.0;
+    for (let i = 0; i < 496; i++) {
+      sum5 += dataNest.get("Moderna")[i].Value / 496
+    }
+    dataMap.set("Moderna", sum5)
+
+    let sum6 = 0.0;
+    for (let i = 0; i < 496; i++) {
+      sum6 += dataNest.get("Inovio Pharmaceuticals")[i].Value / 496
+    }
+    dataMap.set("Inovio Pharmaceuticals", sum6)
+
+    console.log(dataMap)
+
+    let x = d3.scaleBand()
+    .domain(data.map(d => d.Name))
+    .range([0, width])
+    .padding([(0.05)])
+
+    svg2
+    .append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x))
+    .call((g) =>
+        g
+        .append("text")
+        .attr("x", width)
+        .attr("y", margin.bottom - 4)
+        .attr("fill", "currentColor")
+        .attr("text-anchor", "end")
+        .text("Species")
+    );
+
+    let y = d3
+    .scaleLinear()
+    .domain([0, d3.max(dataVol, d => d.Value)])
+    .range([height, 0]);
+
+    svg2
+    .append("g")
+    .call(d3.axisLeft(y))
+    .call((g) =>
+        g
+        .append("text")
+        .attr("x", -margin.left)
+        .attr("y", 10)
+        .attr("fill", "currentColor")
+        .attr("text-anchor", "start")
+        .text()
+    );
+
+    let bars = svg2.append("g")
+    .selectAll("rect")
+    .data(dataVol)
+    .join("rect")
+    .attr("transform", d => `translate(${x(d.Name)},0)`)
+    .attr("width", x.bandwidth() / 2)
+    .attr("height", d => height - y(d.Value))
+    .style("fill", function (d) {
+      return color(d.Name);
+    })
   });
 
 })());
