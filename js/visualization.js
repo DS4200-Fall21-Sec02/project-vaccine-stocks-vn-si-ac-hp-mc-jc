@@ -98,39 +98,26 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
   let dataMap = new Map()
 
   let sum1 = 0.0;
+  let sum2 = 0.0;
+  let sum3 = 0.0;
+  let sum4 = 0.0;
+  let sum5 = 0.0;
+  let sum6 = 0.0;
+
   for (let i = 0; i < 496; i++) {
     sum1 += dataNest.get("BioNTech")[i].Value / 496
-  }
-  dataMap.set("BioNTech", sum1)
-
-  let sum2 = 0.0;
-  for (let i = 0; i < 496; i++) {
     sum2 += dataNest.get("Novavax")[i].Value / 496
-  }
-  dataMap.set("Novavax", sum2)
-
-  let sum3 = 0.0;
-  for (let i = 0; i < 496; i++) {
     sum3 += dataNest.get("Johnson & Johnson")[i].Value / 496
-  }
-  dataMap.set("Johnson & Johnson", sum3)
-
-  let sum4 =0.0;
-  for (let i = 0; i < 496; i++) {
     sum4 += dataNest.get("Astrazeneca")[i].Value / 496
-  }
-  dataMap.set("Astrazeneca", sum4)
-
-  let sum5 = 0.0;
-  for (let i = 0; i < 496; i++) {
     sum5 += dataNest.get("Moderna")[i].Value / 496
-  }
-  dataMap.set("Moderna", sum5)
-
-  let sum6 = 0.0;
-  for (let i = 0; i < 496; i++) {
     sum6 += dataNest.get("Inovio Pharmaceuticals")[i].Value / 496
   }
+
+  dataMap.set("BioNTech", sum1)
+  dataMap.set("Novavax", sum2)
+  dataMap.set("Johnson & Johnson", sum3)
+  dataMap.set("Astrazeneca", sum4)
+  dataMap.set("Moderna", sum5)
   dataMap.set("Inovio Pharmaceuticals", sum6)
 
   console.log(dataMap)
