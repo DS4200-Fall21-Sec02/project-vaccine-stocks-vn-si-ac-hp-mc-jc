@@ -71,11 +71,10 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
   .attr("y", 20 - (margin.top / 2))
   .attr("text-anchor", "middle")  
   .style("font-size", "18px")  
-  .text("Adj_Close");
-
+  .text("Adj_Close by Company");
+ 
   // Add Y axis
   const y1 = d3.scaleLinear()
-  //.domain([0, d3.max(data, function (d) { return +d.Value; })])
   .domain([0, d3.max(dataAdjClose, function (d) { return +d.Value; })])
   .range([height, 0]);
   svg1.append("g")
@@ -145,6 +144,13 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
       .attr("fill", "currentColor")
       .attr("text-anchor", "end")
   );
+
+  svg2.append("text")
+  .attr("x", (width / 2))             
+  .attr("y", 20 - (margin.top / 2))
+  .attr("text-anchor", "middle")  
+  .style("font-size", "18px")  
+  .text("Total Volume by Company");
 
   let y2 = d3
   .scaleLinear()
