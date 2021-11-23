@@ -48,14 +48,30 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
   // group the data: I want to draw one line per group
   const sumstat = d3.group(dataAdjClose, d => d.Name); // nest function allows to group the calculation per level of a factor
 
+  function getDate(d) {
+    return new Date(d.Date);
+  }
+
+  var minDate = getDate(dataAdjClose[0]),
+    maxDate = getDate(dataAdjClose[dataAdjClose.length-1]);
+  
+  console.log(minDate)
+
   // Add X axis --> it is a date format
-  const x1 = d3.scaleLinear()
-  //.domain(d3.extent(data, function (d) { return d.Day; }))
-  .domain([0,500]) // this is hardcoded (for now)
-  .range([0, width]);
+  const x1 = d3.scaleTime().domain([minDate, maxDate]).range([0, width]);
+  
+
   svg1.append("g")
   .attr("transform", `translate(0, ${height})`)
   .call(d3.axisBottom(x1).ticks(5));
+
+  //add title
+  svg1.append("text")
+  .attr("x", (width / 2))             
+  .attr("y", 20 - (margin.top / 2))
+  .attr("text-anchor", "middle")  
+  .style("font-size", "18px")  
+  .text("Adj_Close");
 
   // Add Y axis
   const y1 = d3.scaleLinear()
@@ -77,7 +93,7 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
   .attr("stroke-width", 1.5)
   .attr("d", function (d) {
     return d3.line()
-    .x(function (d) { return x1(d.Day); })
+    .x(function (d) { return x1(getDate(d)); })
     .y(function (d) { return y1(+d.Value); })
     (d[1])
   })
