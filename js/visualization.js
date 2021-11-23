@@ -71,7 +71,7 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
   .attr("y", 20 - (margin.top / 2))
   .attr("text-anchor", "middle")  
   .style("font-size", "18px")  
-  .text("Adj_Close by Company");
+  .text("Adj_Close by Company"); //hard coded right now
  
   // Add Y axis
   const y1 = d3.scaleLinear()
@@ -83,6 +83,28 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
   // color palette
   const colors = d3.scaleOrdinal()
   .range(['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33'])
+
+
+  let tooltip = d3.select("#vis-svg-1")
+  .append("div")
+  .attr('class', 'tooltip')
+  .style("position", "absolute")
+  .style("z-index", "10")
+  .style("visibility", "hidden")
+
+  //hover for bar chart
+  function hover(event, d) {
+    d3.select(this).attr("fill", "red")
+    console.log(d)
+    let coords = d3.pointer(event, svg2)
+    //Update Tooltip Position & value
+    tooltip
+    .style('top', coords[1] + 10 + 'px')
+    .style('left', coords[0] + 10 + 'px')
+    .text(d[0] + "\n" + parseInt(d[1]))
+    .style("visibility", "visible")
+  }
+
   // Draw the line
   let lines = svg1.selectAll(".line")
   .data(sumstat)
@@ -96,7 +118,14 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
     .y(function (d) { return y1(+d.Value); })
     (d[1])
   })
-
+  //sort of what we want but it fills incorrectly
+  
+  //   .on("mouseover", hover)
+  // .on("mousemove", hover)
+  // .on("mouseout", function () {
+  //   d3.select(this).attr("fill", function (d) {return color(d[0]);})
+  //   tooltip.style("visibility", "hidden");
+  // });
 
   let dataVol = data.filter(function(d){ return  (d.Measure == "Volume")})
   let dataNest = d3.group(dataVol, d => d.Name)
@@ -169,25 +198,7 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
       .attr("text-anchor", "start")
       .text()
   );
-
-  let tooltip = d3.select("#vis-svg-1")
-  .append("div")
-  .attr('class', 'tooltip')
-  .style("position", "absolute")
-  .style("z-index", "10")
-  .style("visibility", "hidden")
-
-  function hover(event, d) {
-    d3.select(this).attr("fill", "red")
-    console.log(d)
-    let coords = d3.pointer(event, svg2)
-    //Update Tooltip Position & value
-    tooltip
-    .style('top', coords[1] + 10 + 'px')
-    .style('left', coords[0] + 10 + 'px')
-    .text(d[0] + "\n" + parseInt(d[1]))
-    .style("visibility", "visible")
-  }
+  
 
   let bars = svg2.append("g")
   .selectAll("rect")
