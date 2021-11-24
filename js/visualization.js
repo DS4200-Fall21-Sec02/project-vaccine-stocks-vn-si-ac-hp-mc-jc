@@ -34,6 +34,7 @@ let svg2 = d3
 .append("g")
 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+//colors for bar chart
 var color = d3
 .scaleOrdinal()
 .domain(["Johnson & Johnson", "Novavax", "BioNTech", "Astrazeneca", "Inovio Pharmaceuticals", "Moderna"])
@@ -59,7 +60,6 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
 
   // Add X axis --> it is a date format
   const x1 = d3.scaleTime().domain([minDate, maxDate]).range([0, width]);
-  
 
   svg1.append("g")
   .attr("transform", `translate(0, ${height})`)
@@ -80,10 +80,9 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
   svg1.append("g")
   .call(d3.axisLeft(y1));
 
-  // color palette
+  // color palette for line chart
   const colors = d3.scaleOrdinal()
-  .range(['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33'])
-
+  .range(['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#18119a'])
 
   let tooltip = d3.select("#vis-svg-1")
   .append("div")
@@ -119,13 +118,41 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
     (d[1])
   })
   //sort of what we want but it fills incorrectly
-  
+
   //   .on("mouseover", hover)
   // .on("mousemove", hover)
   // .on("mouseout", function () {
   //   d3.select(this).attr("fill", function (d) {return color(d[0]);})
   //   tooltip.style("visibility", "hidden");
   // });
+
+  // create a list of keys
+var keys = ["Moderna", "BioNTech", "Novavax", "Johnson & Johnson", "Inovio Pharmaceuticals", "Astrazeneca"]
+
+// Add one rect in the legend for each name.
+var size = 10
+svg1.selectAll("myrect")
+  .data(keys)
+  .enter()
+  .append("rect")
+    .attr("x", 60)
+    .attr("y", function(d,i){ return 50 + i*(size+10)}) 
+    .attr("width", size)
+    .attr("height", size)
+    .style("fill", function(d){ return colors(d)})
+
+// Add one label in the legend for each name.
+svg1.selectAll("mylabels")
+  .data(keys)
+  .enter()
+  .append("text")
+    .attr("x", 60 + size*1.2)
+    .attr("y", function(d,i){ return 50 + i*(size+10) + (size/2)}) 
+    .style("fill", function(d){ return colors(d)})
+    .text(function(d){ return d})
+    .attr("text-anchor", "left")
+    .style("alignment-baseline", "middle")
+
 
   let dataVol = data.filter(function(d){ return  (d.Measure == "Volume")})
   let dataNest = d3.group(dataVol, d => d.Name)
