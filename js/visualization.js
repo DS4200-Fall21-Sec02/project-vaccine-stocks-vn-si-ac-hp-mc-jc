@@ -45,13 +45,19 @@ var color = d3
 d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-stocks-vn-si-ac-hp-mc-jc/main/data/vaccine-stocks.csv").then(function (data) {
 
 
-  let dataAdjClose = data.filter(function(d){ return  (d.Measure == "Adj_Close")})
+  let dataAdjClose = data.filter(function(d){ return  (d.Measure == "Open")})
   // group the data: I want to draw one line per group
   const sumstat = d3.group(dataAdjClose, d => d.Name); // nest function allows to group the calculation per level of a factor
 
   function getDate(d) {
     return new Date(d.Date);
   }
+
+  function getMeasure(d) {
+    return d.Measure;
+  }
+
+  var measure = getMeasure(dataAdjClose[0])
 
   var minDate = getDate(dataAdjClose[0]),
     maxDate = getDate(dataAdjClose[dataAdjClose.length-1]);
@@ -71,7 +77,7 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
   .attr("y", 20 - (margin.top / 2))
   .attr("text-anchor", "middle")  
   .style("font-size", "18px")  
-  .text("Adj_Close by Company"); //hard coded right now
+  .text(measure + " by Company"); //hard coded right now
  
   // Add Y axis
   const y1 = d3.scaleLinear()
