@@ -45,9 +45,25 @@ var color = d3
 d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-stocks-vn-si-ac-hp-mc-jc/main/data/vaccine-stocks.csv").then(function (data) {
 
 
-  let dataAdjClose = data.filter(function(d){ return  (d.Measure == "Open")})
-  // group the data: I want to draw one line per group
-  const sumstat = d3.group(dataAdjClose, d => d.Name); // nest function allows to group the calculation per level of a factor
+// List of groups 
+var allGroup = d3.map(data, function(d){return(d.Measure)}).keys()
+
+// add the options to the button
+d3.select("#selectButton")
+  .selectAll('myOptions')
+   .data(allGroup)
+  .enter()
+  .append('option')
+  .text(function (d) { return d; }) // text showed in the menu
+  .attr("value", function (d) { return d; })
+
+//initially set selectedMeasure to what the dropdown starts as
+let selectedMeasure = d3.select("#selectButton").property("value")
+
+//filter data on measure
+let data_measure = data.filter(function(d){ return  (d.Measure == selectedMeasure)})
+// group the data: I want to draw one line per group
+let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to group the calculation per level of a factor
 
   function getDate(d) {
     return new Date(d.Date);
@@ -57,12 +73,65 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
     return d.Measure;
   }
 
-  var measure = getMeasure(dataAdjClose[0])
 
-  var minDate = getDate(dataAdjClose[0]),
-    maxDate = getDate(dataAdjClose[dataAdjClose.length-1]);
+  var measure = getMeasure(data_measure[0])
+
+  var minDate = getDate(data_measure[0]),
+    maxDate = getDate(data_measure[data_measure.length-1]);
   
   console.log(minDate)
+
+  //Update graph based on state of button
+    //Right now this draws lines over lines, and title also gets overlayed.
+    function update(selectedGroup) {
+
+      // Create new data with the selection?
+      data_measure = data.filter(function(d){return d.Measure==selectedGroup})
+      sumstat = d3.group(data_measure, d => d.Name);
+      measure = getMeasure(data_measure[0])
+
+      //add title
+      svg1.append("text")
+      .attr("x", (width / 2))             
+      .attr("y", 20 - (margin.top / 2))
+      .attr("text-anchor", "middle")  
+      .style("font-size", "18px")  
+      .text(measure + " by Company"); 
+
+      //Give these new data to update line
+      svg1.selectAll(".line")
+      .data(sumstat)
+      .join("path")
+      .attr("fill", "none")
+      .attr("stroke", function (d) { return colors(d[0]) })
+      .attr("stroke-width", 1.5)
+      .attr("d", function (d) {
+        return d3.line()
+        .x(function (d) { return x1(getDate(d)); })
+        .y(function (d) { return y1(+d.Value); })
+        (d[1])
+      })
+
+      //example from site is commented out.
+      // line
+      //     .datum(sumstat)
+      //     .transition()
+      //     .duration(1000)
+      //     .attr("d", d3.line()
+      //       .x(function(d) { return x(d.year) })
+      //       .y(function(d) { return y(+d.n) })
+      //     )
+      //     .attr("stroke", function(d){ return myColor(selectedGroup) })
+
+    }
+
+    // When the button is changed, run the updateChart function
+    d3.select("#selectButton").on("change", function(d) {
+        // recover the option that has been chosen
+        var selectedOption = d3.select(this).property("value")
+        // run the updateChart function with this selected option
+        update(selectedOption)
+    })
 
   // Add X axis --> it is a date format
   const x1 = d3.scaleTime().domain([minDate, maxDate]).range([0, width]);
@@ -77,11 +146,11 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
   .attr("y", 20 - (margin.top / 2))
   .attr("text-anchor", "middle")  
   .style("font-size", "18px")  
-  .text(measure + " by Company"); //hard coded right now
+  .text(measure + " by Company"); 
  
   // Add Y axis
   const y1 = d3.scaleLinear()
-  .domain([0, d3.max(dataAdjClose, function (d) { return +d.Value; })])
+  .domain([0, d3.max(data_measure, function (d) { return +d.Value; })])
   .range([height, 0]);
   svg1.append("g")
   .call(d3.axisLeft(y1));
@@ -158,7 +227,6 @@ svg1.selectAll("mylabels")
     .text(function(d){ return d})
     .attr("text-anchor", "left")
     .style("alignment-baseline", "middle")
-
 
   let dataVol = data.filter(function(d){ return  (d.Measure == "Volume")})
   let dataNest = d3.group(dataVol, d => d.Name)
