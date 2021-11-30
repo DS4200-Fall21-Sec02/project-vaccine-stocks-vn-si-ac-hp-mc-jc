@@ -99,7 +99,8 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
     .x(function (d) { return x1(getDate(d)); })
     .y(function (d) { return y1(+d.Value); })
     (d[1])
-  })
+  }).on("mouseover", hover_line)
+  .on("mousemove", hover_line)
 
   const lineText = svg1.append("text")
       .attr("x", (width / 2))             
@@ -167,8 +168,8 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
 
   //hover for bar chart
   function hover(event, d) {
-    d3.select(this).attr("fill", "red")
-    console.log(d)
+    d3.select(this) 
+    //console.log(d)
     let coords = d3.pointer(event, svg2)
     //Update Tooltip Position & value
     tooltip
@@ -178,14 +179,27 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
     .style("visibility", "visible")
   }
 
-  //sort of what we want but it fills incorrectly
+  function hover_line(event,d) {
 
-  //   .on("mouseover", hover)
-  // .on("mousemove", hover)
-  // .on("mouseout", function () {
-  //   d3.select(this).attr("fill", function (d) {return color(d[0]);})
-  //   tooltip.style("visibility", "hidden");
-  // });
+    d3.select(this) 
+    //console.log(d)
+    let coords = d3.pointer(event, svg2)
+    //Update Tooltip Position & value
+    tooltip
+    .style('top', coords[1] + 10 + 'px')
+    .style('left', coords[0] + 10 + 'px')
+    .text(d[0] + "\n" + d[1].Value + "\n" + x1.invert(d[1].Value))
+    .style("visibility", "visible")
+
+  }
+
+  // function get_data(d) {
+  //   let test = d[0] + "\n" + getDate(d);
+  //       console.log(d);
+  //       return test;
+  // }
+
+  
 
   // create a list of keys
 var keys = ["Moderna", "BioNTech", "Novavax", "Johnson & Johnson", "Inovio Pharmaceuticals", "Astrazeneca"]
