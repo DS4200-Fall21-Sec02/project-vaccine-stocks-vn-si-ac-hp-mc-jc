@@ -34,11 +34,6 @@ let svg2 = d3
 .append("g")
 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-//colors for bar chart
-var color = d3
-.scaleOrdinal()
-.domain(["Johnson & Johnson", "Novavax", "BioNTech", "Astrazeneca", "Inovio Pharmaceuticals", "Moderna"])
-.range(["#FF7F50", "#21908dff", "#fde725ff", "#b46fd7", "#FF0000", "#FF00FF"]);
 
 // color palette for line chart
 const colors = d3.scaleOrdinal()
@@ -76,7 +71,6 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
   function getMeasure(d) {
     return d.Measure;
   }
-
 
   var measure = getMeasure(data_measure[0])
 
@@ -122,6 +116,10 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
       data_measure = data.filter(function(d){return d.Measure==selectedGroup})
       sumstat = d3.group(data_measure, d => d.Name);
       measure = getMeasure(data_measure[0])
+
+      if(measure=="Adj_Close") {
+        measure = "Adjusted Close"
+      }
 
       //add title
       lineText
@@ -297,12 +295,12 @@ svg1.selectAll("mylabels")
   .attr("width", x2.bandwidth() / 2)
   .attr("height", d => height - y2(d[1]))
   .style("fill", function (d) {
-    return color(d[0]);
+    return colors(d[0]);
   })
   .on("mouseover", hover)
   .on("mousemove", hover)
   .on("mouseout", function () {
-    d3.select(this).attr("fill", function (d) {return color(d[0]);})
+    d3.select(this).attr("fill", function (d) {return colors(d[0]);})
     tooltip.style("visibility", "hidden");
   });
 
