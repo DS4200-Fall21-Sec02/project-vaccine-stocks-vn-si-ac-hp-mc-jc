@@ -40,13 +40,17 @@ var color = d3
 .domain(["Johnson & Johnson", "Novavax", "BioNTech", "Astrazeneca", "Inovio Pharmaceuticals", "Moderna"])
 .range(["#FF7F50", "#21908dff", "#fde725ff", "#b46fd7", "#FF0000", "#FF00FF"]);
 
+// color palette for line chart
+const colors = d3.scaleOrdinal()
+.range(['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#18119a'])
+
 
 //Read the data
 d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-stocks-vn-si-ac-hp-mc-jc/main/data/vaccine-stocks.csv").then(function (data) {
 
 
 // List of groups 
-var allGroup = d3.map(data, function(d){return(d.Measure)}).keys()
+var allGroup = ["Open","Close","High","Low","Adj_Close"]
 
 // add the options to the button
 d3.select("#selectButton")
@@ -80,6 +84,35 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
     maxDate = getDate(data_measure[data_measure.length-1]);
   
   console.log(minDate)
+  // Add X axis --> it is a date format
+  const x1 = d3.scaleTime().domain([minDate, maxDate]).range([0, width]);
+  // Add Y axis
+  const y1 = d3.scaleLinear()
+  .domain([0, d3.max(data_measure, function (d) { return +d.Value; })])
+  .range([height, 0]);
+  svg1.append("g")
+  .call(d3.axisLeft(y1));
+
+  // Draw the line initially
+  const line = svg1.selectAll(".line")
+  .data(sumstat)
+  .join("path")
+  .attr("fill", "none")
+  .attr("stroke", function (d) { return colors(d[0]) })
+  .attr("stroke-width", 1.5)
+  .attr("d", function (d) {
+    return d3.line()
+    .x(function (d) { return x1(getDate(d)); })
+    .y(function (d) { return y1(+d.Value); })
+    (d[1])
+  })
+
+  const lineText = svg1.append("text")
+      .attr("x", (width / 2))             
+      .attr("y", 20 - (margin.top / 2))
+      .attr("text-anchor", "middle")  
+      .style("font-size", "18px")  
+      .text(measure + " by Company"); 
 
   //Update graph based on state of button
     //Right now this draws lines over lines, and title also gets overlayed.
@@ -91,7 +124,8 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
       measure = getMeasure(data_measure[0])
 
       //add title
-      svg1.append("text")
+      lineText
+      .transition(500)
       .attr("x", (width / 2))             
       .attr("y", 20 - (margin.top / 2))
       .attr("text-anchor", "middle")  
@@ -99,29 +133,17 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
       .text(measure + " by Company"); 
 
       //Give these new data to update line
-      svg1.selectAll(".line")
-      .data(sumstat)
-      .join("path")
-      .attr("fill", "none")
-      .attr("stroke", function (d) { return colors(d[0]) })
-      .attr("stroke-width", 1.5)
-      .attr("d", function (d) {
-        return d3.line()
-        .x(function (d) { return x1(getDate(d)); })
-        .y(function (d) { return y1(+d.Value); })
-        (d[1])
-      })
-
-      //example from site is commented out.
-      // line
-      //     .datum(sumstat)
-      //     .transition()
-      //     .duration(1000)
-      //     .attr("d", d3.line()
-      //       .x(function(d) { return x(d.year) })
-      //       .y(function(d) { return y(+d.n) })
-      //     )
-      //     .attr("stroke", function(d){ return myColor(selectedGroup) })
+      line
+          .data(sumstat)
+          .transition()
+          .duration(500)
+          .attr("stroke", function (d) { return colors(d[0]) })
+          .attr("d", function (d) {
+            return d3.line()
+            .x(function (d) { return x1(getDate(d)); })
+            .y(function (d) { return y1(+d.Value); })
+            (d[1])
+          })
 
     }
 
@@ -133,31 +155,10 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
         update(selectedOption)
     })
 
-  // Add X axis --> it is a date format
-  const x1 = d3.scaleTime().domain([minDate, maxDate]).range([0, width]);
-
   svg1.append("g")
   .attr("transform", `translate(0, ${height})`)
   .call(d3.axisBottom(x1).ticks(5));
-
-  //add title
-  svg1.append("text")
-  .attr("x", (width / 2))             
-  .attr("y", 20 - (margin.top / 2))
-  .attr("text-anchor", "middle")  
-  .style("font-size", "18px")  
-  .text(measure + " by Company"); 
  
-  // Add Y axis
-  const y1 = d3.scaleLinear()
-  .domain([0, d3.max(data_measure, function (d) { return +d.Value; })])
-  .range([height, 0]);
-  svg1.append("g")
-  .call(d3.axisLeft(y1));
-
-  // color palette for line chart
-  const colors = d3.scaleOrdinal()
-  .range(['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#18119a'])
 
   let tooltip = d3.select("#vis-svg-1")
   .append("div")
@@ -179,19 +180,6 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
     .style("visibility", "visible")
   }
 
-  // Draw the line
-  let lines = svg1.selectAll(".line")
-  .data(sumstat)
-  .join("path")
-  .attr("fill", "none")
-  .attr("stroke", function (d) { return colors(d[0]) })
-  .attr("stroke-width", 1.5)
-  .attr("d", function (d) {
-    return d3.line()
-    .x(function (d) { return x1(getDate(d)); })
-    .y(function (d) { return y1(+d.Value); })
-    (d[1])
-  })
   //sort of what we want but it fills incorrectly
 
   //   .on("mouseover", hover)
