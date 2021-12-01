@@ -1,17 +1,3 @@
-// Immediately Invoked Function Expression to limit access to our 
-// variables and prevent
-// ((() => {
-
-//   d3.csv('data/vaccine-stocks.csv').then(function(data) {
-//     console.log(data)
-//   });
-
-//   console.log('Hello, world!');
-
-// })());
-
-// __________________________________________________________________________________________________
-
 // set the dimensions and margins of the graph
 let margin = {top: 10, right: 30, bottom: 50, left: 60},
     width = 600 - margin.left - margin.right,
@@ -77,7 +63,6 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
   let minDate = getDate(data_measure[0]),
     maxDate = getDate(data_measure[data_measure.length-1]);
   
-  console.log(minDate)
   // Add X axis --> it is a date format
   const x1 = d3.scaleTime().domain([minDate, maxDate]).range([0, width]);
   // Add Y axis
@@ -169,7 +154,6 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
   //hover for bar chart
   function hover(event, d) {
     d3.select(this) 
-    //console.log(d)
     let coords = d3.pointer(event, svg2)
     //Update Tooltip Position & value
     tooltip
@@ -182,7 +166,6 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
   function hover_line(event,d) {
 
     d3.select(this) 
-    //console.log(d)
     let coords = d3.pointer(event, svg2)
     //Update Tooltip Position & value
     tooltip
@@ -247,8 +230,6 @@ svg1.selectAll("mylabels")
   dataMap.set("Astrazeneca", sum4)
   dataMap.set("Moderna", sum5)
   dataMap.set("Inovio Pharmaceuticals", sum6)
-
-  console.log(dataMap)
 
   let x2 = d3.scaleBand()
   .domain(dataMap.keys())
