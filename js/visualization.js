@@ -13,7 +13,7 @@
 // __________________________________________________________________________________________________
 
 // set the dimensions and margins of the graph
-var margin = {top: 10, right: 30, bottom: 50, left: 60},
+let margin = {top: 10, right: 30, bottom: 50, left: 60},
     width = 600 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
@@ -45,7 +45,7 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
 
 
 // List of groups 
-var allGroup = ["Open","Close","High","Low","Adj_Close"]
+let allGroup = ["Open","Close","High","Low","Adj_Close"]
 
 // add the options to the button
 d3.select("#selectButton")
@@ -72,9 +72,9 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
     return d.Measure;
   }
 
-  var measure = getMeasure(data_measure[0])
+  let measure = getMeasure(data_measure[0])
 
-  var minDate = getDate(data_measure[0]),
+  let minDate = getDate(data_measure[0]),
     maxDate = getDate(data_measure[data_measure.length-1]);
   
   console.log(minDate)
@@ -149,7 +149,7 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
     // When the button is changed, run the updateChart function
     d3.select("#selectButton").on("change", function(d) {
         // recover the option that has been chosen
-        var selectedOption = d3.select(this).property("value")
+        let selectedOption = d3.select(this).property("value")
         // run the updateChart function with this selected option
         update(selectedOption)
     })
@@ -192,20 +192,13 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
     .style("visibility", "visible")
 
   }
-
-  // function get_data(d) {
-  //   let test = d[0] + "\n" + getDate(d);
-  //       console.log(d);
-  //       return test;
-  // }
-
   
 
   // create a list of keys
-var keys = ["Moderna", "BioNTech", "Novavax", "Johnson & Johnson", "Inovio Pharmaceuticals", "Astrazeneca"]
+let keys = ["Moderna", "BioNTech", "Novavax", "Johnson & Johnson", "Inovio Pharmaceuticals", "Astrazeneca"]
 
 // Add one rect in the legend for each name.
-var size = 10
+let size = 10
 svg1.selectAll("myrect")
   .data(keys)
   .enter()
