@@ -27,7 +27,7 @@ const colors = d3.scaleOrdinal()
 
 
 //Read the data
-d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-stocks-vn-si-ac-hp-mc-jc/main/data/vaccine-stocks.csv").then(function (data) {
+d3.csv("data/vaccine-stocks.csv").then(function (data) {
 
 
 // List of groups 
@@ -58,15 +58,10 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
     return d.Measure;
   }
 
-  // format the data
-  // sumstat.forEach(function(d) {
-  //   d.date = d[1].Date;
-  //   d.value = +d[1].Value;
-  //   console.log(d.date)
-  // });
-
+  //one of: open, close, adj close, high, low
   let measure = getMeasure(data_measure[0])
 
+  //find min and max dates for x domain
   let minDate = getDate(data_measure[0]),
     maxDate = getDate(data_measure[data_measure.length-1]);
 
@@ -95,6 +90,7 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
     tooltip.style("visibility", "hidden");
   });
 
+  //add title
   const lineText = svg1.append("text")
       .attr("x", (width / 2))             
       .attr("y", 20 - (margin.top / 2))
@@ -103,7 +99,6 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
       .text(measure + " by Company"); 
 
   //Update graph based on state of button
-    //Right now this draws lines over lines, and title also gets overlayed.
     function update(selectedGroup) {
 
       // Create new data with the selection?
@@ -147,14 +142,17 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
         update(selectedOption)
     })
 
+  //add x axis
   svg1.append("g")
   .attr("transform", `translate(0, ${height})`)
   .call(d3.axisBottom(x1).ticks(5));
 
+  //add y axis
   svg1.append("g")
   .call(d3.axisLeft(y1));
  
 
+  //create tooltip
   let tooltip = d3.select("#vis-svg-1")
   .append("div")
   .attr('class', 'tooltip')
@@ -174,12 +172,13 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
     .style("visibility", "visible")
   }
 
+  //hover for line chart
   function hoverLine(event,d) {
 
     d3.select(this) 
       let coords = d3.pointer(event, svg1)
       let invertX = x1.invert(coords[0] - margin.left - 19)
-      let invertY = height - (y1.invert(coords[1] + 53) * -1)
+      let invertY = height - (y1.invert(coords[1] - 60) * -1)
       //Update Tooltip Position & value
       tooltip
       .style('top', coords[1] + 'px')
@@ -217,6 +216,7 @@ svg1.selectAll("mylabels")
     .attr("text-anchor", "left")
     .style("alignment-baseline", "middle")
 
+  //Create volume only dataset to get averages.
   let dataVol = data.filter(function(d){ return  (d.Measure == "Volume")})
   let dataNest = d3.group(dataVol, d => d.Name)
   let dataMap = new Map()
@@ -262,13 +262,6 @@ svg1.selectAll("mylabels")
       .attr("text-anchor", "end")
   );
 
-  svg2.append("text")
-  .attr("x", (width / 2))             
-  .attr("y", 20 - (margin.top / 2))
-  .attr("text-anchor", "middle")  
-  .style("font-size", "18px")  
-  .text("Total Volume by Company");
-
   let y2 = d3
   .scaleLinear()
   .domain([0, d3.max(dataMap.values())])
@@ -280,14 +273,15 @@ svg1.selectAll("mylabels")
   .call((g) =>
       g
       .append("text")
-      .attr("x", -margin.left)
-      .attr("y", 10)
+      .attr("x", (width / 4))
+      .attr("y", 20 - (margin.top / 2))
       .attr("fill", "currentColor")
       .attr("text-anchor", "start")
-      .text()
+      .style("font-size", "18px")  
+      .text("Average Volume by Company")
   );
   
-
+//create bars
   let bars = svg2.append("g")
   .selectAll("rect")
   .data(dataMap)
@@ -305,11 +299,21 @@ svg1.selectAll("mylabels")
     tooltip.style("visibility", "hidden");
   });
 
+  //Add title
+  bars.append("text")
+  .attr("x", (width / 2))             
+  .attr("y", 20 - (margin.top / 2))
+  .attr("text-anchor", "middle")  
+  .style("font-size", "18px")  
+  .text("Average Volume by Company");
+
+  //Brushing Code---------------------------------------------------------------------------------------------
+
   let brush1 = d3.brush();
 
-function clear() {
-    svg2.call(brush1.move, null)
-  }
+  function clear() {
+      svg2.call(brush1.move, null)
+    }
     
 svg2
 .call(
@@ -318,17 +322,20 @@ svg2
     .on("start brush", updateChart2) // Each time the brush selection changes, trigger the 'updateChart' function
 )
 
+
 function updateChart2(brushEvent) {
   if (brushEvent === null) {
     return;
   }
   let company = [];
+
   bars
   .classed("selected", function (d) {
     if (isBrushedBar(brushEvent, x2(d[0]), y2(d[1]))) {
       company.push(d[0]);
       return false;
     }
+    
   });
 
   bars.classed("selected", function (d) {
@@ -348,5 +355,3 @@ function isBrushedBar(brushEvent, cx, cy) {
     return x0 <= cx && cx + 15 <= x1 && cy <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
 }}
 })
-
-
