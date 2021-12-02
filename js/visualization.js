@@ -86,6 +86,9 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
     (d[1])
   }).on("mouseover", hover_line)
   .on("mousemove", hover_line)
+  .on("mouseout", function () {
+    tooltip.style("visibility", "hidden");
+  });
 
   const lineText = svg1.append("text")
       .attr("x", (width / 2))             
