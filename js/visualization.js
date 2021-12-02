@@ -335,7 +335,6 @@ function updateChart2(brushEvent) {
   bars
   .classed("selected", function (d) {
     if (isBrushedBar(brushEvent, x2(d[0]), y2(d[1]))) {
-      console.log(brushEvent, x2(d[0]), y2(d[1]))
       company.push(d[0]);
       return false;
     }
@@ -346,7 +345,6 @@ function updateChart2(brushEvent) {
   });
 
   line.classed("selected", function (d) {
-    console.log(d)
     return company.includes(d[0])
   });
 }
