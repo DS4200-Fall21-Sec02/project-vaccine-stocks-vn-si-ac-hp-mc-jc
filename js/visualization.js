@@ -136,6 +136,7 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
 
     // When the button is changed, run the updateChart function
     d3.select("#selectButton").on("change", function(d) {
+        clear()
         // recover the option that has been chosen
         let selectedOption = d3.select(this).property("value")
         // run the updateChart function with this selected option
