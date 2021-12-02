@@ -190,7 +190,7 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
       tooltip
       .style('top', coords[1] + 10 + 'px')
       .style('left', coords[0] + 10 + 'px')
-      .text(d[0] + "\n" + d[1].Value + "\n" + x1.invert(d[1].Value))
+      .text(d[0] + "\n" + x1.invert(coords[0]) + "\n" + y1.invert(coords[1]))
       .style("visibility", "visible")
 
     }
