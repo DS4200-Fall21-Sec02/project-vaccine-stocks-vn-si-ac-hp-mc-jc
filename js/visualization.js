@@ -136,6 +136,7 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
 
     // When the button is changed, run the updateChart function
     d3.select("#selectButton").on("change", function(d) {
+      clear()
       // recover the option that has been chosen
       var selectedOption = d3.select(this).property("value")
       // run the updateChart function with this selected option
@@ -300,6 +301,10 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
 
 let brush1 = d3.brush();
 
+function clear() {
+    svg2.call(brush1.move, null)
+  }
+    
 svg2
 .call(
     brush1                // Add the brush feature using the d3.brush function
