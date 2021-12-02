@@ -12,7 +12,7 @@ h1, h2, h3 {
 .selected {
 	opacity: 1;
 	stroke: black;
-	stroke-width: 3px;
+	stroke-width: 2px;
 }
 
 .tooltip {
