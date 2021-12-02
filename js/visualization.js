@@ -171,7 +171,7 @@ let sumstat = d3.group(data_measure, d => d.Name); // nest function allows to gr
     tooltip
     .style('top', coords[1] + 10 + 'px')
     .style('left', coords[0] + 10 + 'px')
-    .text(d[0] + "\n" + d[1].Value + "\n" + x1.invert(d[1].Value))
+    .text(d[0] + "\n" + x1.invert(coords[0]) + "\n" + y1.invert(coords[1]))
     .style("visibility", "visible")
 
   }
@@ -296,21 +296,21 @@ svg1.selectAll("mylabels")
 
   // let brush1 = d3.brush();
   // let brush2 = d3.brush();
-  //
+  
   // svg1
   // .call(
   //     brush1                // Add the brush feature using the d3.brush function
   //     .extent([[0, 0], [width, height]]) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
   //     .on("start brush", updateChart1) // Each time the brush selection changes, trigger the 'updateChart' function
   // )
-  //
+  
   // svg2
   // .call(
   //     brush2                // Add the brush feature using the d3.brush function
   //     .extent([[0, 0], [width, height]]) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
   //     .on("start brush", updateChart2) // Each time the brush selection changes, trigger the 'updateChart' function
   // )
-  //
+  
   // function updateChart1(brushEvent) {
   //   if (brushEvent === null) {
   //     return;
@@ -324,12 +324,12 @@ svg1.selectAll("mylabels")
   //       return true;
   //     }
   //   });
-  //
+  
   //   bars.classed("selected", function (d) {
   //     return company.includes(d[0])
   //   });
   // }
-  //
+  
   // function updateChart2(brushEvent) {
   //   if (brushEvent === null) {
   //     return;
@@ -343,12 +343,12 @@ svg1.selectAll("mylabels")
   //       return true;
   //     }
   //   });
-  //
+  
   //   bars.classed("selected", function (d) {
   //     return company.includes(d[0])
   //   });
   // }
-  //
+  
   // function isBrushed(brushEvent, cx, cy) {
   //   if(brushEvent.selection !== null) {
   //     let x0 = brushEvent.selection[0][0];
