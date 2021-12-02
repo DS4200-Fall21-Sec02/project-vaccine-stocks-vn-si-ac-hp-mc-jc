@@ -195,12 +195,6 @@ d3.csv("https://raw.githubusercontent.com/DS4200-Fall21-Sec02/project-vaccine-st
 
     }
 
-    // function get_data(d) {
-    //   let test = d[0] + "\n" + getDate(d);
-    //       console.log(d);
-    //       return test;
-    // }
-
 
   // create a list of keys
   var keys = ["Moderna", "BioNTech", "Novavax", "Johnson & Johnson", "Inovio Pharmaceuticals", "Astrazeneca"]
