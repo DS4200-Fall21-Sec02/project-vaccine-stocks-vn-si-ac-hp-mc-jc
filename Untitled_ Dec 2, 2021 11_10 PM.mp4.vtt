@@ -1,0 +1,223 @@
+﻿WEBVTT
+
+1
+00:00:00.080 --> 00:00:03.800
+Hello.
+This is a demo for our visualization
+
+2
+00:00:04.200 --> 00:00:08.620
+and for our project, and our project
+is called Vaccine Stock Analysis.
+
+3
+00:00:08.640 --> 00:00:11.240
+So the first thing is we have
+two different kinds of charts.
+
+4
+00:00:11.270 --> 00:00:14.520
+We have a line chart and a bar
+chart and the line chart.
+
+5
+00:00:14.520 --> 00:00:15.460
+I'll start with the line charts.
+
+6
+00:00:15.480 --> 00:00:18.660
+The line chart has the ability
+to basically look at different values.
+
+7
+00:00:18.690 --> 00:00:21.940
+So for any given stock,
+there's an open or close.
+
+8
+00:00:21.970 --> 00:00:26.780
+A high alone, adjusted close and adjusted
+close accounts for dividends, basically.
+
+9
+00:00:26.800 --> 00:00:28.820
+And so you can choose
+from any one of these.
+
+10
+00:00:28.850 --> 00:00:32.980
+If you press on open,
+it will automatically change.
+
+11
+00:00:33.000 --> 00:00:35.200
+If you press on low, it will
+automatically change there.
+
+12
+00:00:35.230 --> 00:00:38.060
+So essentially,
+you have that functionality to choose
+
+13
+00:00:38.090 --> 00:00:42.180
+from any particular value
+that you're interested in.
+
+14
+00:00:42.200 --> 00:00:44.540
+And from there,
+you have the ability to basically examine
+
+15
+00:00:44.570 --> 00:00:49.500
+the values of each of these lines
+just by scrolling over them.
+
+16
+00:00:49.530 --> 00:00:58.200
+As you can see here, no backs essentially
+goes from $212 all the way up to $308.
+
+17
+00:00:58.230 --> 00:01:00.380
+So it's really easy to see that price
+
+18
+00:01:00.410 --> 00:01:05.050
+change just by scrolling over
+and dragging your cursor.
+
+19
+00:01:05.080 --> 00:01:06.900
+That's kind of what
+the line chart is doing.
+
+20
+00:01:06.930 --> 00:01:12.210
+We just have the prices right on the X
+axis and the relative timescale on the Y
+
+21
+00:01:12.240 --> 00:01:19.130
+axis going from around
+2020 to July of 2021.
+
+22
+00:01:19.160 --> 00:01:21.850
+As far as the bar chart is concerned,
+we're just looking at the average
+
+23
+00:01:21.880 --> 00:01:27.140
+cumulative volume of each company over
+the course of our data set, essentially.
+
+24
+00:01:27.170 --> 00:01:30.540
+So we can see that it's nicely plotted.
+
+25
+00:01:30.570 --> 00:01:34.180
+We have our scale, and we
+have each of the companies.
+
+26
+00:01:34.210 --> 00:01:37.700
+And as far as some of the functionality is
+for brushing, linking,
+
+27
+00:01:37.730 --> 00:01:41.850
+and all that is concerned,
+we have the ability to press on any
+
+28
+00:01:41.880 --> 00:01:46.440
+individual bar and get its corresponding
+line in black, as you can see if I clicked
+
+29
+00:01:46.470 --> 00:01:54.280
+on Bio and Tech that's highlighted if I
+click on Novax or Nova Vaccine that's
+
+30
+00:01:54.310 --> 00:01:57.900
+highlighted Johnson and Johnson
+and so on and so forth.
+
+31
+00:01:57.930 --> 00:01:58.540
+Right.
+
+32
+00:01:58.570 --> 00:02:01.760
+So that's going to be
+our linking component.
+
+33
+00:02:02.160 --> 00:02:06.180
+And then essentially what
+we have is our brushing.
+
+34
+00:02:06.200 --> 00:02:07.520
+As far as our brushing is concerned,
+
+35
+00:02:07.550 --> 00:02:12.500
+you have the ability to kind
+of just brush over, and it will
+
+36
+00:02:12.530 --> 00:02:15.480
+Consequently highlight
+
+37
+00:02:15.520 --> 00:02:18.100
+the corresponding line as you can see as I
+
+38
+00:02:18.130 --> 00:02:22.380
+go across and start brushing
+over multiple bars.
+
+39
+00:02:22.410 --> 00:02:25.660
+Eventually, all the lines
+are highlighted in black.
+
+40
+00:02:25.690 --> 00:02:29.140
+So that's kind of the functionality
+that we implemented there.
+
+41
+00:02:29.160 --> 00:02:32.820
+So that's really nice.
+It's easy to see which lines because
+
+42
+00:02:32.850 --> 00:02:36.800
+the lines are a bit clustered,
+but it becomes a lot easier
+
+43
+00:02:36.960 --> 00:02:39.360
+to look at individual values through
+
+44
+00:02:39.390 --> 00:02:43.860
+the brushing and linking
+facilitated through the bar chart.
+
+45
+00:02:43.890 --> 00:02:50.240
+So that's pretty much it as far as
+the functionality is concerned.
+
+46
+00:02:50.880 --> 00:02:54.720
+And yeah, so hopefully that was helpful.
+
