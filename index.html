@@ -8,7 +8,7 @@
   <script src="https://d3js.org/d3.v4.js"></script>
 
   <!-- Title -->
-  <title>Project Team ##: Topic, DS4200 F21</title>
+  <title>Vaccine Stock Analysis, DS4200 F21</title>
   
   <!-- CSS Styling -->
   <link rel='stylesheet' href='style.css'>
@@ -32,7 +32,7 @@
 
   <!-- Writeup -->
   <div class='content-column'>
-   <h1>Project Team ##: Topic, DS4200 F21</h1>
+   <h1>Vaccine Stock Analysis, DS4200 F21</h1>
     
     <p><strong>Haden Pelletier</strong>, <strong>Jacob Chung</strong>, <strong>Monroe Chung</strong>, <strong>Ally Chao</strong>, <strong>Varun Narahari</strong>, <strong>Stella Ikpatt</strong></p>
     
@@ -45,13 +45,16 @@
     
     <h1>Abstract</h1>
     
-    <p>Replace with your paper abstract.</p>
+    <p>Throughout the COVID pandemic, companies that developed vaccines saw a surge 
+      in their stock prices while many others suffered a decline. The purpose of this 
+      project is to analyze the relative price performance of six different vaccine/medical 
+      device companies. The primary objective is to utilize historical price data to uncover 
+      trends/correlations amidst the companies. We plan on accomplishing this by graphing 
+      the price data against other statistical measures such as volume (the number of shares
+       traded during market hours).</p>
 
     
     <h1>Visualization</h1>
-    
-    <p>Include the interactive visualization as part of this page. Static example follows.</p>
-
     
   </div>
   
@@ -69,17 +72,24 @@
 
     <h1>Demo Video</h1>
     
-    <p>Embed an MP4 demo video using the HTML5 &lt;video&gt; tag. For example, this screen recording Prof. Cody Dunne made of Mike Bostock's flexible transitions in D3 slide:</p>
-    
-    <video controls width='100%'>
-      <source src='http://www.ccs.neu.edu/home/cody/courses/shared/d3-flexible-transitions.mp4' type='video/mp4'>
-      <p>Your browser doesn't support HTML5 video. Here is
-       a <a href='http://www.ccs.neu.edu/home/cody/courses/shared/d3-flexible-transitions.mp4'>link to the video</a> instead.</p>
-    </video>
+  <video controls width='100%'>
+    <source src='Untitled_%20Dec%202,%202021%2011_10%20PM.mp4' type='video/mp4'>
+    <track src="Untitled_%20Dec%202,%202021%2011_10%20PM.mp4.vtt" label="English" kind="captions" srclang="en-us" default >
+  </video>
+
 
     <h1>Visualization explanation</h1>
     
-    <p>Replace with a brief explanation (can be copied from the paper) and linked presentation slides.</p>
+    <p>The visualization on the left is a line chart, where each company corresponds to a line. 
+      In the legend, we have 6 companies all with a coresponding color. There is a filter where you can choose
+      between open, close, high, low, adjusted close price and the line chart will update. When you
+    hover over the line, the company name, date, and current price will show. </p>
+
+    <p>The visualization on the right is a bar chart. Each company has a bar corresponding to the total 
+      volume of stock. We used different color encodings to differentiate the bars. There is brushing and linking between the bar chart
+	and the line chart. You can click on a bar, and the corresponding line will highlight in the line chart. If you 
+	  select multiple bars, then multiple lines will be selected.</p>
+
     
     <h1>Acknowledgments</h1>
 
@@ -99,6 +109,18 @@
       <li><a href='https://github.com/NEU-DS-4200-F20-Staff/Project'>
         Project</a>
         by Cody Dunne is used to create this assignment.
+      </li>
+      <li><a href='https://www.d3-graph-gallery.com/graph/line_several_group.html'>
+        Line plot with several groups</a>
+        by D3.js graph gallery is used as reference to create the line plot.
+      </li>
+      <li><a href='https://www.d3-graph-gallery.com/graph/interactivity_brush.html'>
+        Brushing and Linking</a>
+        by D3.js graph gallery is used as reference to link our bar chart and line chart.
+      </li>
+	<li><a href='https://www.d3-graph-gallery.com/graph/line_filter.html'>
+        Filter group</a>
+        by D3.js graph gallery is used as reference to filter our line chart by measure.
       </li>
     </ul>
   </div>
