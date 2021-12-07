@@ -353,6 +353,6 @@ function isBrushedBar(brushEvent, cx, cy) {
     let x0 = brushEvent.selection[0][0] - margin.left;
     let x1 = brushEvent.selection[1][0];
     let y1 = brushEvent.selection[1][1];
-    return x0 <= cx && cx + 15 <= x1 && cy <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
+    return x0 <= cx && cx + 20 <= x1 && cy <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
 }}
 })
